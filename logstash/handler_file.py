@@ -1,3 +1,4 @@
+import os
 from logging.handlers import RotatingFileHandler
 from logstash import formatter
 
@@ -17,6 +18,10 @@ class FileLogstashHandler(RotatingFileHandler, object):
     """
 
     def __init__(self, filename, mode='a', maxBytes=0, backupCount=0, encoding=None, delay=False, message_type='logstash', tags=None, fqdn=False, version=0):
+
+        if not os.path.exists(filename):
+            os.makedirs(os.path.dirname(filename))
+
         RotatingFileHandler.__init__(self, filename, mode, maxBytes, backupCount, encoding, delay)
 
         if version == 1:
